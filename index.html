@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="css/main.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+    <title>残務の民</title>
+    <link rel="manifest" href="/manifest.json">
+</head>
+
+<body class="grey lighten-4">
+    <header>
+        <nav>
+            <div class="nav-wrapper blue-grey darken-3">
+                <a href="#" class="brand-logo center">残務の民</a>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col s12 m12">
+                    <div class="card-panel center-align">
+                        <p class="time" id="date">1970/01/01</p>
+                        <p class="time" id="clock">00:00</p>
+                    </div>
+                </div>
+                <div class="col s12 m12">
+                    <div id="info-panel" class="card-panel center-align">
+                        <table class="card-table">
+                            <tbody>
+                                <tr>
+                                    <th>定時</th>
+                                    <td id="leaving-time">17:30</td>
+                                </tr>
+                                <tr>
+                                    <th>残業時間</th>
+                                    <td id="today-overtime">00:00:00</td>
+                                </tr>
+                                <tr>
+                                    <th>残業代（円）</th>
+                                    <td id="today-wage">0円</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <a onClick="taikin(); return false;" class="col s10 offset-s1 waves-effect waves-light btn-large blue darken-4"><i
+                        class="material-icons left">directions_run</i>退勤</a>
+            </div>
+            <div class="row">
+                <a href="https://twitter.com/share?text=残務の民&hashtags=残務の民" id="share" onClick="window.open(encodeURI(decodeURI(this.href)), 'tweetwindow', 'width=650, height=470, personalbar=0, toolbar=0, scrollbars=1, sizable=1'); return false;"
+                    rel="nofollow" class="disabled col s10 offset-s1 waves-effect waves-light btn-large green darken-3"><i
+                        class="material-icons left">share</i>残務の民</a>
+            </div>
+            <div class="row">
+                <a class="col s5 offset-s1 waves-effect waves-teal btn-flat center-align modal-trigger" onclick="loadSettings()"
+                    href="#settings"><i class="material-icons left">settings</i>設定</a>
+            </div>
+            <div class="fixed-action-btn">
+                <a class="btn-floating btn-large waves-effect waves-light red datepicker"><i class="material-icons">date_range</i></a>
+            </div>
+        </div>
+    </main>
+    <footer class="page-footer blue-grey darken-3">
+        <div class="footer-copyright">
+            <div class="container  center-align">
+                © 
+                <script>document.write(new Date().getFullYear())</script> 
+                <a class="grey-text" href="https://www.advbear.cf/" target="_blank">advancedbear</a>
+            </div>
+        </div>
+    </footer>
+
+    <div id="settings" class="modal">
+        <div class="modal-content">
+            <div class="row">
+                <label>定時</label>
+                <select class="browser-default" id="teiji_setting">
+                    <option id="teiji_17:00" value="17:00">17:00</option>
+                    <option id="teiji_17:30" value="17:30" selected>17:30</option>
+                    <option id="teiji_18:00" value="18:00">18:00</option>
+                    <option id="teiji_18:30" value="18:30">18:30</option>
+                    <option id="teiji_19:00" value="19:00">19:00</option>
+                </select>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input value="1200" id="tanka_setting" type="number">
+                    <label for="tanka_setting" class="active">時間単価（円）</label>
+                </div>
+            </div>
+            <div class="row">
+                <label>
+                    <input id="check_share_zanmu" type="checkbox" class="filled-in" checked="checked" />
+                    <span>残務時間を投稿する</span>
+                </label>
+            </div>
+            <div class="row">
+                <label>
+                    <input id="check_share_money" type="checkbox" class="filled-in" checked="checked" />
+                    <span>残業代を投稿する</span>
+                </label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat" onclick="saveSettings();return false;">Save</a>
+        </div>
+    </div>
+
+    <div id="history-view" class="modal">
+        <div class="modal-content">
+            <table>
+                <tbody>
+                    <tr>
+                        <th>日付</th>
+                        <td id="history-date">1970/01/01</td>
+                    </tr>
+                    <tr>
+                        <th>退勤時刻</th>
+                        <td id="history-time">00:00:00</td>
+                    </tr>
+                    <tr>
+                        <th>残務時間</th>
+                        <td id="history-zanmu">00:00:00</td>
+                    </tr>
+                    <tr>
+                        <th>残業代</th>
+                        <td id="history-money">0円</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn green darken-3">
+                <i class="material-icons left">share</i>履歴をシェア
+            </a>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

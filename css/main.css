@@ -1,0 +1,45 @@
+* {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}      
+
+.time {
+    margin: 0;
+    line-height: 1.0;
+}
+
+.time#date {
+    font-size: 2rem;
+
+}
+
+.time#clock {
+    font-size: 6rem;
+}
+
+.page-footer {
+    padding-top: 0;
+}
+
+.card-table tr {
+    border-bottom: none;
+}
+
+.card-table td,th {
+    padding: 6px 5px;
+}
+
+.card-panel {
+    padding: 12px 24px;
+}

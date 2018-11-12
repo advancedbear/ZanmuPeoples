@@ -1,0 +1,17 @@
+{
+    "name": "残務の民",
+    "short_name": "残務の民",
+    "description": "残務管理ツール",
+    "start_url": "/",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#F5F5F5",
+    "theme_color": "#F5F5F5",
+    "icons": [
+        {
+            "src": "/favicon.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        }
+    ]
+}
