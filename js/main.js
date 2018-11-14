@@ -38,6 +38,7 @@ $(document).ready(function () {
         share_zanmu: true,
         share_salary: true
     })
+    $("#leaving-time").text(JSON.parse(localStorage.settings).leaving_time)
     updateDate()
     if (zanmu_history[getDateFormat(new Date())]) {
         getNowDate(zanmu_history[getDateFormat(new Date())], (d) => {
@@ -159,14 +160,14 @@ var getDateFormat = function (dateObj) {
 }
 
 var saveSettings = function () {
-    let settings = {
+    let localsettings = {
         leaving_time: $("#teiji_setting").val(),
         hourly_wage: $("#tanka_setting").val(),
         share_zanmu: $("#check_share_zanmu").prop('checked'),
         share_salary: $("#check_share_money").prop('checked')
     }
-    $("#leaving-time").text(settings.leaving_time)
-    localStorage.settings = JSON.stringify(settings)
+    $("#leaving-time").text(localsettings.leaving_time)
+    localStorage.localsettings = JSON.stringify(localsettings)
 }
 
 var loadSettings = function () {
