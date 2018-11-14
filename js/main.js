@@ -1,4 +1,5 @@
 var zanmu_history = {}
+var tweet_d = null, tweet_s = null
 $(document).ready(function () {
     $('.modal').modal()
     var datepicker = $('.datepicker').datepicker({
@@ -37,13 +38,19 @@ $(document).ready(function () {
         share_zanmu: true,
         share_salary: true
     })
+    updateDate()
     if (zanmu_history[getDateFormat(new Date())]) {
         getNowDate(zanmu_history[getDateFormat(new Date())], (d) => {
-            $("#share").removeClass('disabled')
-            $("#share").prop('href', `https://twitter.com/share?text=本日は${('0' + d.hour).slice(-2)}:${('0' + d.minute).slice(-2)}まで残務しました。%0a&url=&original_referer=&hashtags=残務の民`)
+            calcSaraly(new Date(`${d.year}-${d.month}-${d.date} ${$("#teiji_setting").val()}`),
+                d.Obj, JSON.parse(localStorage.settings).hourly_wage, 
+                (di, s) => {
+                    $("#share").removeClass('disabled')
+                    tweet_d = d
+                    tweet_s = s
+                }
+            )
         })
     }
-    updateDate()
 })
 
 var getNowDate = function (dateObj, callback) {
@@ -66,14 +73,23 @@ var taikin = function () {
         M.toast({
             html: `${('0' + d.hour).slice(-2)}:${('0' + d.minute).slice(-2)} に退勤しました`
         })
-        $("#share").prop('href', `https://twitter.com/share?text=
-        ${JSON.parse(localStorage.settings).share_zanmu?"本日は"+('0' + d.hour).slice(-2)+":"+('0' + d.minute).slice(-2)+"まで残務しました。%0a":""}
-        ${JSON.parse(localStorage.settings).share_saraly?"残業代として"+$("#today-wage").text()+"円稼ぎました。":""}
-        &url=&original_referer=&hashtags=残務の民`)
+        tweet_d = d
+        tweet_s = $("#today-wage").text().slice(-1)
         zanmu_history[d.year + '' + d.month + '' + d.date] = d.Obj
     })
     localStorage.zanmu_history = JSON.stringify(zanmu_history)
     $("#share").removeClass('disabled')
+}
+
+var share = function () {
+    console.log("share")
+    let zanmu_time = tweet_d!=null ? JSON.parse(localStorage.settings).share_zanmu ? "本日は"+('0' + tweet_d.hour).slice(-2)+":"+('0' + tweet_d.minute).slice(-2)+"まで残務しました。%0a" : "" : ""
+    let zanmu_salary = tweet_s!=null ? JSON.parse(localStorage.settings).share_salary?"残業代として"+tweet_s+"円稼ぎました。%0a":"":""
+    window.open("https://twitter.com/share?text="+zanmu_time+zanmu_salary+"%23残務の民&url=&original_referer=", "tweetwindow", "width=400,height=300")
+}
+
+var shareHistory = function(obj) {
+    window.open("https://twitter.com/share?text="+$("#history-date").text()+"は"+$("#history-time").text()+"に退勤し、"+$("#history-zanmu").text()+"残務しました。残業代として"+$("#history-money").text()+"稼ぎました%20%23残務の民&url=&original_referer=", "tweetwindow", "width=400,height=300")
 }
 
 var updateDate = function () {
@@ -89,12 +105,12 @@ var updateDate = function () {
                     if(di > 0) {
                         $("#today-wage").text(s+"円")
                         $("#today-wage").css("color", "red")
-                        $("#today-overtime").text(`${Math.floor(di/3600000)}:${Math.floor(di%3600000/60000)}:${Math.floor(di%3600000%60000/60000)}`)
+                        $("#today-overtime").text(`${Math.floor(di/3600000)}:${Math.floor(di%3600000/60000)}`)
                         $("#today-overtime").css("color", "red")
                     } else {
                         $("#today-wage").text("0円")
                         $("#today-wage").css("color", "black")
-                        $("#today-overtime").text("00:00:00")
+                        $("#today-overtime").text("00:00")
                         $("#today-overtime").css("color", "black")
                     }
                 }
@@ -107,12 +123,12 @@ var updateDate = function () {
                     if(di > 0) {
                         $("#today-wage").text(s+"円")
                         $("#today-wage").css("color", "red")
-                        $("#today-overtime").text(`${Math.floor(di/3600000)}:${Math.floor(di%3600000/60000)}:${Math.floor(di%3600000%60000/60000)}`)
+                        $("#today-overtime").text(`${Math.floor(di/3600000)}:${Math.floor(di%3600000/60000)}`)
                         $("#today-overtime").css("color", "red")
                     } else {
                         $("#today-wage").text("0円")
                         $("#today-wage").css("color", "black")
-                        $("#today-overtime").text("00:00:00")
+                        $("#today-overtime").text("00:00")
                         $("#today-overtime").css("color", "black")
                     }
                 }
@@ -149,12 +165,13 @@ var saveSettings = function () {
         share_zanmu: $("#check_share_zanmu").prop('checked'),
         share_salary: $("#check_share_money").prop('checked')
     }
+    $("#leaving-time").text(settings.leaving_time)
     localStorage.settings = JSON.stringify(settings)
 }
 
 var loadSettings = function () {
-    $(`#teiji_${JSON.parse(localStorage.settings).leaving_time}`).prop('selected', true),
-        $("#tanka_setting").val(JSON.parse(localStorage.settings).hourly_wage),
-        $("#check_share_zanmu").prop('checked', JSON.parse(localStorage.settings).share_zanmu),
-        $("#check_share_money").prop('checked', JSON.parse(localStorage.settings).share_salary)
+    $("#teiji_setting").val(JSON.parse(localStorage.settings).leaving_time)
+    $("#tanka_setting").val(JSON.parse(localStorage.settings).hourly_wage)
+    $("#check_share_zanmu").prop('checked', JSON.parse(localStorage.settings).share_zanmu)
+    $("#check_share_money").prop('checked', JSON.parse(localStorage.settings).share_salary)
 }

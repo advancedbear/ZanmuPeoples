@@ -52,17 +52,19 @@
                 </div>
             </div>
             <div class="row">
-                <a onClick="taikin(); return false;" class="col s10 offset-s1 waves-effect waves-light btn-large blue darken-4"><i
-                        class="material-icons left">directions_run</i>退勤</a>
+                <a onclick="taikin(); return false;" class="col s10 offset-s1 waves-effect waves-light btn-large blue darken-4"><i
+                        class="material-icons left">directions_run</i>退勤
+                </a>
             </div>
             <div class="row">
-                <a href="https://twitter.com/share?text=残務の民&hashtags=残務の民" id="share" onClick="window.open(encodeURI(decodeURI(this.href)), 'tweetwindow', 'width=650, height=470, personalbar=0, toolbar=0, scrollbars=1, sizable=1'); return false;"
-                    rel="nofollow" class="disabled col s10 offset-s1 waves-effect waves-light btn-large green darken-3"><i
-                        class="material-icons left">share</i>残務の民</a>
+                <a id="share" onclick="share(); return false" class="disabled col s10 offset-s1 waves-effect waves-light btn-large green darken-3">
+                    <i class="material-icons left">share</i>残務の民
+                </a>
             </div>
             <div class="row">
                 <a class="col s5 offset-s1 waves-effect waves-teal btn-flat center-align modal-trigger" onclick="loadSettings()"
-                    href="#settings"><i class="material-icons left">settings</i>設定</a>
+                    href="#settings"><i class="material-icons left">settings</i>設定
+                </a>
             </div>
             <div class="fixed-action-btn">
                 <a class="btn-floating btn-large waves-effect waves-light red datepicker"><i class="material-icons">date_range</i></a>
@@ -72,8 +74,8 @@
     <footer class="page-footer blue-grey darken-3">
         <div class="footer-copyright">
             <div class="container  center-align">
-                © 
-                <script>document.write(new Date().getFullYear())</script> 
+                ©
+                <script>document.write(new Date().getFullYear())</script>
                 <a class="grey-text" href="https://www.advbear.cf/" target="_blank">advancedbear</a>
             </div>
         </div>
@@ -85,7 +87,7 @@
                 <label>定時</label>
                 <select class="browser-default" id="teiji_setting">
                     <option id="teiji_17:00" value="17:00">17:00</option>
-                    <option id="teiji_17:30" value="17:30" selected>17:30</option>
+                    <option id="teiji_17:30" value="17:30">17:30</option>
                     <option id="teiji_18:00" value="18:00">18:00</option>
                     <option id="teiji_18:30" value="18:30">18:30</option>
                     <option id="teiji_19:00" value="19:00">19:00</option>
@@ -139,7 +141,8 @@
             </table>
         </div>
         <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-green btn green darken-3">
+            <a href="#!" class="modal-close waves-effect waves-green btn green darken-3"
+                onclick="shareHistory(this)">
                 <i class="material-icons left">share</i>履歴をシェア
             </a>
         </div>
