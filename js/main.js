@@ -38,7 +38,7 @@ $(document).ready(function () {
         share_zanmu: true,
         share_salary: true
     })
-    $("#leaving-time").text(JSON.parse(localStorage.settings).leaving_time)
+    setTimeout(()=>{$("#leaving-time").text(JSON.parse(localStorage.settings).leaving_time)}, 50)
     updateDate()
     if (zanmu_history[getDateFormat(new Date())]) {
         getNowDate(zanmu_history[getDateFormat(new Date())], (d) => {
@@ -167,7 +167,7 @@ var saveSettings = function () {
         share_salary: $("#check_share_money").prop('checked')
     }
     $("#leaving-time").text(localsettings.leaving_time)
-    localStorage.localsettings = JSON.stringify(localsettings)
+    localStorage.settings = JSON.stringify(localsettings)
 }
 
 var loadSettings = function () {
